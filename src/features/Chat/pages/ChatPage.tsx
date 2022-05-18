@@ -1,10 +1,11 @@
 import React, { FC } from "react"
 import { useMessagesFetchLatestQuery } from "../../../models"
-import "./Chat.css"
 import { ChannelId } from "../../../models"
 import { useFetchLatestMessagesQuery } from "../../../models"
+import { Container, HeaderArea, LeftBarSelector, MainArea, MessegeArea } from "./Chat"
 interface ChatProps {}
 
+//${(props) => props.theme.backgroundColor}
 const Chat: FC<ChatProps> = () => {
   const { data, error, loading } = useFetchLatestMessagesQuery({ variables: { channelId: "1" } })
   if (loading) {
@@ -16,9 +17,14 @@ const Chat: FC<ChatProps> = () => {
   }
   console.log(data)
   return (
-    <div className="Chat" data-testid="Chat">
-      Chat Component
-    </div>
+    <>
+      <Container className="Chat" data-testid="Chat">
+        <LeftBarSelector></LeftBarSelector>
+        <MainArea>
+          <HeaderArea>Chat Component</HeaderArea> <MessegeArea></MessegeArea>
+        </MainArea>
+      </Container>
+    </>
   )
 }
 
