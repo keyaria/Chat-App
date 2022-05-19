@@ -21,3 +21,27 @@ export const QUERY_FETCH_MESSAGES = gql`
     }
   }
 `;
+
+export const QUERY_FETCH_MORE_MESSAGES = gql`
+  query MessagesFetchMore($channelId: ChannelId!, $messageId: String!, $old: Boolean!) {
+  	MessagesFetchMore(channelId: $channelId, messageId: $messageId, old: $old){
+      text
+      messageId
+      datetime
+      userId
+  }
+  }
+`;
+
+// MUTATIONS
+export const MUTATION_POST_MESSAGES = gql`
+  mutation MessagePost($channelId: ChannelId!, $text: String!, $userId: UserId!) {
+    MessagePost(channelId: $channelId, text: $text, userId: $userId) {
+      messageId
+      text
+      datetime
+      userId
+    }
+  }
+
+`;

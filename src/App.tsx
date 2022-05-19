@@ -8,14 +8,18 @@ import { createContext, useContext, useReducer } from "react"
 export type GlobalContent = {
   selectedUser: string
   channel: string
+  message: string
+  loadingMessage: boolean
 }
 
 const initialGlobalState = {
-  selectedUser: "",
-  channel: ""
-  };
-const GlobalStateContext =  createContext<GlobalContent>(initialGlobalState);
-const DispatchStateContext = createContext<any>(undefined);
+  selectedUser: "Joyse",
+  channel: "General",
+  message: "",
+  loadingMessage: false,
+}
+const GlobalStateContext = createContext<GlobalContent>(initialGlobalState)
+const DispatchStateContext = createContext<any>(undefined)
 
 /**
  * Global State provider & hooks
@@ -24,34 +28,29 @@ const GlobalStateProvider = ({ children }: any) => {
   const [state, dispatch] = useReducer(
     (state: GlobalContent, newValue: any) => ({ ...state, ...newValue }),
     initialGlobalState
-  );
+  )
   return (
     <GlobalStateContext.Provider value={state}>
-      <DispatchStateContext.Provider value={dispatch}>
-        {children}
-      </DispatchStateContext.Provider>
+      <DispatchStateContext.Provider value={dispatch}>{children}</DispatchStateContext.Provider>
     </GlobalStateContext.Provider>
-  );
-};
+  )
+}
 
-export const useGlobalState = () => [
-  useContext(GlobalStateContext),
-  useContext(DispatchStateContext)
-];
+export const useGlobalState = () => [useContext(GlobalStateContext), useContext(DispatchStateContext)]
 
 function App() {
   return (
     <GlobalStateProvider>
-    <ThemeProvider theme={theme}>
-      <Router>
-        <Routes>
-          {
-            // @ts-ignore
-            <Route path="/" element={<Chat.routeProps.component />} />
-          }
-        </Routes>
-      </Router>
-    </ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <Routes>
+            {
+              // @ts-ignore
+              <Route path="/" element={<Chat.routeProps.component />} />
+            }
+          </Routes>
+        </Router>
+      </ThemeProvider>
     </GlobalStateProvider>
   )
 }
