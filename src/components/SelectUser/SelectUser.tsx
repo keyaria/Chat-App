@@ -1,12 +1,13 @@
 import React, { FC } from "react"
-import "./SelectUser.css"
-
+import { Select } from  "./SelectUserStyle"
 interface SelectUserProps {}
 
 const SelectUser: FC<SelectUserProps> = () => (
-  <div className="Select-user" data-testid="Select-user">
-    Select-user Component
-  </div>
+  <Select className="Select-user" data-testid="Select-user">
+    <select>
+    <option>Joyce</option>
+    </select>
+  </Select>
 )
 
 export default SelectUser
