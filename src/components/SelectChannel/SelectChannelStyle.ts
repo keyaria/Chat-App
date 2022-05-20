@@ -1,7 +1,5 @@
 import styled from "@emotion/styled";
 
-const dynamicStyle = (props: { color: any; }) => ({ background: props.color });
-
 export const Title = styled.label`
   margin-top: 0;
 `;
@@ -32,8 +30,8 @@ export const Menu = styled.ul`
 
     p{
       font-weight: 600;
-    font-size: .85rem;
-    display: inline-block;
+      font-size: .85rem;
+      display: inline-block;
     }
 
 `;

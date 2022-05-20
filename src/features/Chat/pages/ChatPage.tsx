@@ -1,5 +1,5 @@
-import SelectUser from "../../../components/SelectUser/SelectUser"
-import SelectChannel from "../../../components/SelectChannel/SelectChannel"
+import SelectUser from "src/components/SelectUser/SelectUser"
+import SelectChannel from "src/components/SelectChannel/SelectChannel"
 import { useEffect, FC, useState } from "react"
 import {
   Container,
@@ -32,7 +32,6 @@ interface ChatProps {}
 const Chat: FC<ChatProps> = () => {
   const [state, dispatch] = useGlobalState()
   const [sendMes, setCount] = useState<null | { value: string }>(null)
-  const [user, setError] = useState(null)
   const [isLoading, setisLoading] = useState(false)
   const [date, setDate] = useState("")
   const [getQuery, { data, error, loading }] = useFetchLatestMessagesLazyQuery({
@@ -42,20 +41,16 @@ const Chat: FC<ChatProps> = () => {
   useEffect(() => {
     if (!data || state.messages.length === 0) {
       getQuery().then((res) => {
-        console.log(res, "res")
         let d = res.data?.fetchLatestMessages
         dispatch({ messages: d?.slice(0) })
         setisLoading(false)
       })
     }
-
-    console.log(user, state, "mess", state.messages)
   }, [state.selectedUser])
 
   const handleChange = (event: any) => {
     // @ts-ignore
     setCount({ value: event.target.value })
-    console.log(sendMes)
     dispatch({ message: sendMes })
   }
 
@@ -63,7 +58,6 @@ const Chat: FC<ChatProps> = () => {
     return <div>ERROR</div>
   }
 
-  console.log(data, state.messages)
   return (
     <>
       <Title>
@@ -76,9 +70,7 @@ const Chat: FC<ChatProps> = () => {
           <SelectChannel setisLoading={setisLoading}></SelectChannel>
         </LeftBarSelector>
         <MainArea>
-          <HeaderArea>
-            {state.channel} Channel {state.selectedUser}
-          </HeaderArea>
+          <HeaderArea>{state.channel} Channel</HeaderArea>
           <MessageArea>
             <ReadMoreButton
               old={true}
@@ -130,7 +122,7 @@ const Chat: FC<ChatProps> = () => {
                     </ChatAvatar>
                     <ChatText>{sendMes?.value}</ChatText>
                     <Date>
-                      <Moment format="HH : SS">{state.datetime}</Moment>
+                      <Moment format="HH : MM">{state.datetime}</Moment>
                       <FontAwesomeIcon icon={faCheckCircle} />
                     </Date>
                     <p>Sent</p>

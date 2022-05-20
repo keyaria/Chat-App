@@ -10,12 +10,7 @@ function App() {
     <GlobalStateProvider>
       <ThemeProvider theme={theme}>
         <Router>
-          <Routes>
-            {
-              // @ts-ignore
-              <Route path="/" element={<Chat.routeProps.component />} />
-            }
-          </Routes>
+          <Routes>{<Route path="/" element={<Chat.routeProps.component />} />}</Routes>
         </Router>
       </ThemeProvider>
     </GlobalStateProvider>

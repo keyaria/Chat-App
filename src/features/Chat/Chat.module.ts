@@ -1,9 +1,8 @@
-import React from 'react';
 import Chat from './pages/ChatPage';
 
 export default {
   routeProps: {
-    path: '/Chat',
+    path: '/',
     component: Chat
   },
   name: 'Chat',

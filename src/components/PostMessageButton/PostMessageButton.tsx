@@ -15,18 +15,14 @@ const PostMessageButton: FC<PostMessageButtonProps> = ({ text, setisLoading, set
   const [state, dispatch] = useGlobalState()
   const [createMessage, { data, loading, error }] = useMessagePostMutation()
 
-  if (loading) {
-    console.log("bug")
-  }
   if (data) {
-    console.log(data, "sad")
     setisLoading(false)
 
     setDate(data.MessagePost?.datetime)
   }
 
   if (error) {
-    console.log(error, "das")
+    console.log(error)
   }
 
   const onClick = async () => {

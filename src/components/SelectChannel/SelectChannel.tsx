@@ -15,7 +15,6 @@ const SelectChannel: FC<SelectChannelProps> = ({ setisLoading }) => {
     getQuery({
       variables: { channelId: channel },
     }).then((res) => {
-      console.log(res, "reewrwfd")
       let d = res.data?.fetchLatestMessages
       dispatch({ channel: channel, messages: d?.slice(0) })
       setisLoading(false)
