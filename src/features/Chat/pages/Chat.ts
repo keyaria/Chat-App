@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const Container = styled.div`
   max-width: 1140px;
@@ -77,13 +78,13 @@ export const ChatText = styled.div`
     position: relative;
     '&:before':{
       content: '';
-    position: absolute;
-    width: 0;
-    height: 0;
-    top: 10px;
-    left: -20px;
-    border: 10px solid;
-    border-color: transparent #ffffff transparent transparent;
+      position: absolute;
+      width: 0;
+      height: 0;
+      top: 10px;
+      left: -20px;
+      border: 10px solid;
+      border-color: transparent #ffffff transparent transparent;
     }
 `;
 
@@ -94,6 +95,7 @@ export const TextArea = styled.textarea`
   display: block;
   width: 100%;
   height: auto;
+  min-height: 300px
   max-height: 400px;
   padding: 0.375rem 0;
   margin-top: 1rem;
@@ -133,5 +135,30 @@ export const Title = styled.div`
 
   p{
     margin-top: 0;
+  }
+`;
+
+export const Date = styled.span`
+  align-self: center;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 0;
+  font-size: 0.80rem;
+  justify-content: center;
+  flex-direction:row;
+  align-items: center;
+  display: flex;
+  text-align: center;
+
+  p {
+    font-size: .75rem;
+    color: #999999;
+    text-align: center;
+  }
+  FontAwesomeIcon {
+    color: green;
+  }
+  .fa-circle-check {
+    color: green
   }
 `;

@@ -1,14 +1,15 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
-import SelectChannel from './SelectChannel';
+// import React from 'react';
+// import { render, screen } from '@testing-library/react';
+// import '@testing-library/jest-dom/extend-expect';
+// import SelectChannel from './SelectChannel';
 
-describe('<SelectChannel />', () => {
-  test('it should mount', () => {
-    render(<SelectChannel />);
-    
-    const selectChannel = screen.getByTestId('SelectChannel');
+// describe('<SelectChannel />', () => {
+//   test('it should mount', () => {
+//     render(<SelectChannel />);
 
-    expect(selectChannel).toBeInTheDocument();
-  });
-});
+//     const selectChannel = screen.getByTestId('SelectChannel');
+
+//     expect(selectChannel).toBeInTheDocument();
+//   });
+// });
+export {}

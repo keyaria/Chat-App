@@ -18,31 +18,43 @@ import {
   ChatLeft,
   ChatList,
   Title,
+  Date,
 } from "./Chat"
-import { useGlobalState } from "../../../App"
-import Button from "../../../components/Button/Button"
-import { useFetchLatestMessagesLazyQuery } from "src/generated/graphql"
+import { useGlobalState } from "src/contexts/GlobalContext"
+import ReadMoreButton from "src/components/ReadMoreButton/ReadMoreButton"
+import { useFetchLatestMessagesLazyQuery } from "src/models"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons"
+
+import Moment from "react-moment"
+import { Spinner } from "src/components/Loading/LoadingStyle"
+import PostMessageButton from "src/components/PostMessageButton/PostMessageButton"
+
 interface ChatProps {}
 
 //${(props) => props.theme.backgroundColor}
 const Chat: FC<ChatProps> = () => {
-  useEffect(() => {})
   const [state, dispatch] = useGlobalState()
   const [sendMes, setCount] = useState<null | { value: string }>(null)
   const [user, setError] = useState(null)
   const [isLoading, setisLoading] = useState(false)
-
-  useEffect(() => {
-    console.log("entered", sendMes)
-    getQuery()
-
-    setError(state.selectedUser)
-    console.log(user, state.selectedUser)
-  }, [state.selectedUser])
-
+  const [date, setDate] = useState("")
   const [getQuery, { data, error, loading }] = useFetchLatestMessagesLazyQuery({
     variables: { channelId: state.channel },
   })
+
+  useEffect(() => {
+    if (!data || state.messages.length === 0) {
+      getQuery().then((res) => {
+        console.log(res, "res")
+        let d = res.data?.fetchLatestMessages
+        dispatch({ messages: d?.slice(0) })
+        setisLoading(false)
+      })
+    }
+
+    console.log(user, state, "mess", state.messages)
+  }, [state.selectedUser])
 
   const handleChange = (event: any) => {
     // @ts-ignore
@@ -50,15 +62,12 @@ const Chat: FC<ChatProps> = () => {
     console.log(sendMes)
     dispatch({ message: sendMes })
   }
-  // if (loading) {
-  //   return <div>Loading...</div>
-  // }
 
-  // if (error || !data) {
-  //   return <div>ERROR</div>
-  // }
+  if (error) {
+    return <div>ERROR</div>
+  }
 
-  console.log(data, state.selectedUser, user)
+  console.log(data, state.messages)
   return (
     <>
       <Title>
@@ -68,21 +77,25 @@ const Chat: FC<ChatProps> = () => {
       <Container className="Chat" data-testid="Chat">
         <LeftBarSelector>
           <SelectUser></SelectUser>
-          <SelectChannel></SelectChannel>
+          <SelectChannel setisLoading={setisLoading}></SelectChannel>
         </LeftBarSelector>
         <MainArea>
           <HeaderArea>
             {state.channel} Channel {state.selectedUser}
           </HeaderArea>
           <MessageArea>
-            <Button
+            <ReadMoreButton
               old={true}
-              message={(data?.fetchLatestMessages && data.fetchLatestMessages[0].messageId) || ""}
-            ></Button>
+              message={state.message && state.message[0].messageId}
+              setisLoading={setisLoading}
+            ></ReadMoreButton>
             <ChatContainer>
-              {loading && <div>load...</div>}
-              {data &&
-                data.fetchLatestMessages?.map((item, i) => {
+              {isLoading ? (
+                <Spinner />
+              ) : (
+                data &&
+                data.fetchLatestMessages &&
+                state.messages.map((item: any, i: any) => {
                   return (
                     <ChatLeft>
                       <ChatList
@@ -95,12 +108,24 @@ const Chat: FC<ChatProps> = () => {
                           <p>{item.userId}</p>
                         </ChatAvatar>
                         <ChatText>{item.text}</ChatText>
-                        <p>Sent</p>
+                        <Date>
+                          <Moment format="HH : SS">{item.datetime}</Moment>
+
+                          {item.userId === state.selectedUser && (
+                            <p>
+                              {" "}
+                              <FontAwesomeIcon icon={faCheckCircle} />
+                              Sent
+                            </p>
+                          )}
+                        </Date>
                       </ChatList>
                     </ChatLeft>
                   )
-                })}
-              {isLoading && (
+                })
+              )}
+
+              {date && (
                 <ChatLeft>
                   <ChatList color="row-reverse" mat={"flex-start"}>
                     <ChatAvatar>
@@ -108,25 +133,26 @@ const Chat: FC<ChatProps> = () => {
                       <p>{state.selectedUser}</p>
                     </ChatAvatar>
                     <ChatText>{sendMes?.value}</ChatText>
+                    <Date>
+                      <Moment format="HH : SS">{state.datetime}</Moment>
+                      <FontAwesomeIcon icon={faCheckCircle} />
+                    </Date>
+                    <p>Sent</p>
+                    <p>{date}</p>
                   </ChatList>
                 </ChatLeft>
               )}
-              {state.loadingMessage && <p>"Getting User"</p>}
-              {state.loadingMessage && <p>"Getting User"</p>}
             </ChatContainer>
 
-            <Button
+            <ReadMoreButton
               old={false}
-              message={
-                (data?.fetchLatestMessages &&
-                  data?.fetchLatestMessages[data?.fetchLatestMessages.length - 1].messageId) ||
-                ""
-              }
-            ></Button>
+              message={state.message && state.message[state.message.length - 1].messageId}
+              setisLoading={setisLoading}
+            ></ReadMoreButton>
             <DIV>
               <TextArea onChange={handleChange} placeholder="Type your message here..." rows={3}></TextArea>
             </DIV>
-            <Button text="Send Message" setisLoading={setisLoading} old={false} message=""></Button>
+            <PostMessageButton setisLoading={setisLoading} setDate={setDate}></PostMessageButton>
           </MessageArea>
         </MainArea>
       </Container>

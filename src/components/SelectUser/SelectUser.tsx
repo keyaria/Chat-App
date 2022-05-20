@@ -1,6 +1,6 @@
-import React, { FC } from "react"
+import { FC } from "react"
 import { Select, Title, DIV } from "./SelectUserStyle"
-import { useGlobalState } from "../../App"
+import { useGlobalState } from "../../contexts/GlobalContext"
 import { UserId } from "../../models"
 interface SelectUserProps {}
 
@@ -8,7 +8,6 @@ const SelectUser: FC<SelectUserProps> = () => {
   const [state, dispatch] = useGlobalState()
 
   const handleChange = (event: any) => {
-    // @ts-ignore
     dispatch({ selectedUser: event.target.value })
   }
 

@@ -3,40 +3,7 @@ import "./App.css"
 import Chat from "./features/Chat/Chat.module"
 import { ThemeProvider } from "@emotion/react"
 import theme from "./theme"
-import { createContext, useContext, useReducer } from "react"
-
-export type GlobalContent = {
-  selectedUser: string
-  channel: string
-  message: string
-  loadingMessage: boolean
-}
-
-const initialGlobalState = {
-  selectedUser: "Joyse",
-  channel: "General",
-  message: "",
-  loadingMessage: false,
-}
-const GlobalStateContext = createContext<GlobalContent>(initialGlobalState)
-const DispatchStateContext = createContext<any>(undefined)
-
-/**
- * Global State provider & hooks
- */
-const GlobalStateProvider = ({ children }: any) => {
-  const [state, dispatch] = useReducer(
-    (state: GlobalContent, newValue: any) => ({ ...state, ...newValue }),
-    initialGlobalState
-  )
-  return (
-    <GlobalStateContext.Provider value={state}>
-      <DispatchStateContext.Provider value={dispatch}>{children}</DispatchStateContext.Provider>
-    </GlobalStateContext.Provider>
-  )
-}
-
-export const useGlobalState = () => [useContext(GlobalStateContext), useContext(DispatchStateContext)]
+import { GlobalStateProvider } from "./contexts/GlobalContext"
 
 function App() {
   return (

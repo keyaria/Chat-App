@@ -1,31 +1,41 @@
-import React, { FC, useEffect } from "react"
-import { ChannelId } from "../../models"
+import { FC } from "react"
+import { ChannelId, useFetchLatestMessagesLazyQuery } from "../../models"
 import { Menu, Title } from "./SelectChannelStyle"
-import { useGlobalState } from "../../App"
-interface SelectChannelProps {}
+import { useGlobalState } from "../../contexts/GlobalContext"
+interface SelectChannelProps {
+  setisLoading: any
+}
 
-const SelectChannel: FC<SelectChannelProps> = () => {
+const SelectChannel: FC<SelectChannelProps> = ({ setisLoading }) => {
   const [state, dispatch] = useGlobalState()
+  const [getQuery, { data, error, loading }] = useFetchLatestMessagesLazyQuery()
+
+  const onClick = (channel: string) => {
+    setisLoading(true)
+    getQuery({
+      variables: { channelId: channel },
+    }).then((res) => {
+      console.log(res, "reewrwfd")
+      let d = res.data?.fetchLatestMessages
+      dispatch({ channel: channel, messages: d?.slice(0) })
+      setisLoading(false)
+    })
+  }
+
   return (
     <div className="SelectChannel" data-testid="SelectChannel">
       <Title> 2. Choose Your Channel</Title>
       <Menu>
-        <li
-          onClick={() => dispatch({ channel: ChannelId.General })}
-          className={`${state.channel === ChannelId.General && "active"}`}
-        >
+        <li onClick={() => onClick(ChannelId.General)} className={`${state.channel === ChannelId.General && "active"}`}>
           <p>{ChannelId.General}</p>
         </li>
         <li
-          onClick={() => dispatch({ channel: ChannelId.Technology })}
+          onClick={() => onClick(ChannelId.Technology)}
           className={`${state.channel === ChannelId.Technology && "active"}`}
         >
           <p>{ChannelId.Technology}</p>
         </li>
-        <li
-          onClick={() => dispatch({ channel: ChannelId.Lgtm })}
-          className={`${state.channel === ChannelId.Lgtm && "active"}`}
-        >
+        <li onClick={() => onClick(ChannelId.Lgtm)} className={`${state.channel === ChannelId.Lgtm && "active"}`}>
           <p>{ChannelId.Lgtm}</p>
         </li>
       </Menu>
