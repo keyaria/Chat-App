@@ -97,7 +97,7 @@ const Chat: FC<ChatProps> = () => {
                         </ChatAvatar>
                         <ChatText>{item.text}</ChatText>
                         <Date>
-                          <Moment format="HH : SS">{item.datetime}</Moment>
+                          <Moment format="HH : mm">{item.datetime}</Moment>
 
                           {item.userId === state.selectedUser && (
                             <p>
@@ -122,7 +122,7 @@ const Chat: FC<ChatProps> = () => {
                     </ChatAvatar>
                     <ChatText>{sendMes?.value}</ChatText>
                     <Date>
-                      <Moment format="HH : MM">{state.datetime}</Moment>
+                      <Moment format="HH : mm">{state.datetime}</Moment>
                       <FontAwesomeIcon icon={faCheckCircle} />
                     </Date>
                     <p>Sent</p>

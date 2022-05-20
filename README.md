@@ -1,8 +1,10 @@
 # Chat Application
 
-## Getting Started
-
 ## Project Description
+
+Mock Up of the design with working queries and mutations
+
+## Getting Started
 
 In the project directory, you can run:
 

@@ -76,7 +76,7 @@ export const ChatText = styled.div`
     line-height: 150%;
     position: relative;
     '&:before':{
-      content: '';
+      content: '""';
       position: absolute;
       width: 0;
       height: 0;
