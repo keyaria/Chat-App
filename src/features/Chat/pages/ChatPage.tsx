@@ -1,9 +1,6 @@
 import SelectUser from "../../../components/SelectUser/SelectUser"
 import SelectChannel from "../../../components/SelectChannel/SelectChannel"
-import React, { useEffect, FC, useState } from "react"
-import { useMessagesFetchLatestQuery } from "../../../models"
-import { ChannelId } from "../../../models"
-import { useFetchLatestMessagesQuery } from "../../../models"
+import { useEffect, FC, useState } from "react"
 import {
   Container,
   HeaderArea,
@@ -32,7 +29,6 @@ import PostMessageButton from "src/components/PostMessageButton/PostMessageButto
 
 interface ChatProps {}
 
-//${(props) => props.theme.backgroundColor}
 const Chat: FC<ChatProps> = () => {
   const [state, dispatch] = useGlobalState()
   const [sendMes, setCount] = useState<null | { value: string }>(null)
